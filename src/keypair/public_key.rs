@@ -1,11 +1,11 @@
-use crate::primitive::point::{Point, DisLogPoint};
-use crate::primitive::scalar::{Scalar, ScalarNumber};
-use crate::primitive::bytes::{Output, self};
 use super::Keypair;
+use crate::primitive::bytes;
+use crate::primitive::point::{DisLogPoint, Point};
+use crate::primitive::scalar::ScalarNumber;
 
 pub struct PublicKey<P: DisLogPoint, S: ScalarNumber> {
-    pub(crate) code: Output<S>,
-    pub(crate) public: Point<P>,
+    pub code: bytes::Output<S>,
+    pub public: Point<P>,
 }
 
 impl<P: DisLogPoint, S: ScalarNumber> PublicKey<P, S> {
@@ -16,4 +16,3 @@ impl<P: DisLogPoint, S: ScalarNumber> PublicKey<P, S> {
         }
     }
 }
-

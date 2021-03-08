@@ -1,7 +1,7 @@
 //! Define Point.
 
-use super::scalar::{ScalarNumber, Scalar};
-use core::ops::{Add, Sub, Mul, AddAssign, SubAssign, MulAssign, Neg};
+use super::scalar::{Scalar, ScalarNumber};
+use core::ops::{Add, AddAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
 /// Point trait.
 pub trait DisLogPoint: Clone {

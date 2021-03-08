@@ -1,14 +1,14 @@
-use crate::primitive::point::{Point, DisLogPoint};
-use crate::primitive::scalar::{Scalar, ScalarNumber};
-use crate::primitive::bytes::{Bytes, self};
-use digest::Digest;
 use super::public_key::PublicKey;
+use crate::primitive::bytes::{self, Bytes};
+use crate::primitive::point::{DisLogPoint, Point};
+use crate::primitive::scalar::{Scalar, ScalarNumber};
+use digest::Digest;
 
 pub struct Keypair<P: DisLogPoint, S: ScalarNumber> {
-    pub(crate) seed: bytes::Output<S>,
-    pub(crate) code: bytes::Output<S>,
-    pub(crate) secret: Scalar<S>,
-    pub(crate) public: Point<P>,
+    pub seed: bytes::Output<S>,
+    pub code: bytes::Output<S>,
+    pub secret: Scalar<S>,
+    pub public: Point<P>,
 }
 
 impl<P: DisLogPoint, S: ScalarNumber> Keypair<P, S> {
@@ -23,7 +23,7 @@ impl<P: DisLogPoint, S: ScalarNumber> Keypair<P, S> {
             seed,
             code: bytes::Output::<S>::clone_from_slice(c),
             secret,
-            public
+            public,
         }
     }
 
@@ -31,4 +31,3 @@ impl<P: DisLogPoint, S: ScalarNumber> Keypair<P, S> {
         PublicKey::from_keypair(self)
     }
 }
-

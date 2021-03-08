@@ -1,3 +1,1 @@
-pub trait Sponge {
-
-}
+pub trait Sponge {}

@@ -1,4 +1,4 @@
-use generic_array::{GenericArray, ArrayLength};
+use generic_array::{ArrayLength, GenericArray};
 
 pub type Output<D> = GenericArray<u8, <D as Bytes>::OutputSize>;
 

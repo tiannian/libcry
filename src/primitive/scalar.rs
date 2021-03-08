@@ -1,7 +1,7 @@
 //! Define scalar.
-use core::ops::{Add, AddAssign, Mul, MulAssign, Neg, Sub, SubAssign};
-use super::point::{DisLogPoint, Point};
 use super::bytes::{Bytes, Output};
+use super::point::{DisLogPoint, Point};
+use core::ops::{Add, AddAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
 /// Trait for scalar.
 pub trait ScalarNumber: Bytes {
@@ -50,7 +50,7 @@ impl<S: ScalarNumber> Bytes for Scalar<S> {
     }
 
     fn from_bytes(data: &[u8]) -> Self {
-        Self (S::from_bytes(data))
+        Self(S::from_bytes(data))
     }
 }
 
