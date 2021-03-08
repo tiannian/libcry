@@ -21,9 +21,9 @@ impl<P: DisLogPoint, S: ScalarNumber> Signature<P, S> {
         let R = Point::basepoint() * &r_scalar;
         
         let mut hasher_s = D::new();
-        hasher_s.update(message.as_ref());
-        hasher_s.update(sk.public.to_bytes());
         hasher_s.update(R.to_bytes());
+        hasher_s.update(sk.public.to_bytes());
+        hasher_s.update(message.as_ref());
         let s_bytes = hasher_s.finalize();
         let a = Scalar::from_bytes(s_bytes.as_ref());
 
@@ -34,9 +34,19 @@ impl<P: DisLogPoint, S: ScalarNumber> Signature<P, S> {
         }
     }
     
-    pub fn verify(&self, pk: BarePublicKey<P>) -> bool {
+    pub fn verify<D: Digest, M: AsRef<[u8]>>(&self, pk: BarePublicKey<P>, message: M) -> bool {
+        let s_g = &self.s * Point::<P>::basepoint();
+        
+        let mut hasher = D::new();
+        hasher.update(self.R.to_bytes());
+        hasher.update(pk.public.to_bytes());
+        hasher.update(message.as_ref());
+        let s_bytes = hasher.finalize();
+        let a = Scalar::<S>::from_bytes(s_bytes.as_ref());
 
-        true
+        let rp = &self.R + a * pk.public;
+
+        s_g == rp
     }
 }
 

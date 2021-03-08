@@ -2,6 +2,7 @@
 
 use super::scalar::{Scalar, ScalarNumber};
 use core::ops::{Add, AddAssign, Mul, MulAssign, Neg, Sub, SubAssign};
+use core::cmp::{PartialEq, Eq};
 use super::bytes::{Bytes, self};
 
 /// Point trait.
@@ -19,6 +20,8 @@ pub trait DisLogPoint: Clone + Bytes {
     fn mul<S: ScalarNumber>(&self, rhs: &S) -> Self;
 
     fn neg(&self) -> Self;
+
+    fn eq(&self, o: &Self) -> bool;
 
     fn sub(&self, rhs: &Self) -> Self
     where
@@ -55,6 +58,12 @@ impl<P: DisLogPoint> Bytes for Point<P> {
 
     fn from_bytes(data: &[u8]) -> Self {
         Self(P::from_bytes(data))
+    }
+}
+
+impl<P: DisLogPoint> PartialEq for Point<P> {
+    fn eq(&self, o: &Self) -> bool {
+        self.0.eq(&o.0)
     }
 }
 
