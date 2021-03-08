@@ -2,9 +2,10 @@
 
 use super::scalar::{Scalar, ScalarNumber};
 use core::ops::{Add, AddAssign, Mul, MulAssign, Neg, Sub, SubAssign};
+use super::bytes::{Bytes, self};
 
 /// Point trait.
-pub trait DisLogPoint: Clone {
+pub trait DisLogPoint: Clone + Bytes {
     const SIZE: usize;
 
     fn zero() -> Self;
@@ -39,6 +40,22 @@ impl<P: DisLogPoint> Point<P> {
     pub fn one() -> Self {
         Point(P::one())
     }
+
+    pub fn basepoint() -> Self {
+        Point(P::basepoint())
+    }
+}
+
+impl<P: DisLogPoint> Bytes for Point<P> {
+    type OutputSize = P::OutputSize;
+
+    fn to_bytes(&self) -> bytes::Output<Self> {
+        self.0.to_bytes()
+    }
+
+    fn from_bytes(data: &[u8]) -> Self {
+        Self(P::from_bytes(data))
+    }
 }
 
 macro_rules! impl_point {
@@ -69,9 +86,13 @@ impl_point!(Add, add, Point<P>, Point<P>, &'b Point<P>);
 impl_point!(Sub, sub, Point<P>, Point<P>, &'b Point<P>);
 impl_point!(Add, add, Point<P>, &'a Point<P>, Point<P>);
 impl_point!(Sub, sub, Point<P>, &'a Point<P>, Point<P>);
+impl_point!(Add, add, Point<P>, Point<P>, Point<P>);
+impl_point!(Sub, sub, Point<P>, Point<P>, Point<P>);
+
 impl_scalar_point!(Mul, mul, Point<P>, &'a Point<P>, &'b Scalar<S>);
 impl_scalar_point!(Mul, mul, Point<P>, Point<P>, &'b Scalar<S>);
 impl_scalar_point!(Mul, mul, Point<P>, &'a Point<P>, Scalar<S>);
+impl_scalar_point!(Mul, mul, Point<P>, Point<P>, Scalar<S>);
 
 macro_rules! impl_point_assign {
     ($op:ident, $opf:ident, $opf_a:ident, $lt:ty, $rt:ty) => {

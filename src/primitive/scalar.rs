@@ -85,10 +85,14 @@ impl_scalar!(Mul, mul, Scalar<S>, Scalar<S>, &'b Scalar<S>);
 impl_scalar!(Add, add, Scalar<S>, &'a Scalar<S>, Scalar<S>);
 impl_scalar!(Sub, sub, Scalar<S>, &'a Scalar<S>, Scalar<S>);
 impl_scalar!(Mul, mul, Scalar<S>, &'a Scalar<S>, Scalar<S>);
+impl_scalar!(Add, add, Scalar<S>, Scalar<S>, Scalar<S>);
+impl_scalar!(Sub, sub, Scalar<S>, Scalar<S>, Scalar<S>);
+impl_scalar!(Mul, mul, Scalar<S>, Scalar<S>, Scalar<S>);
 
 impl_scalar_point!(Mul, mul, Point<P>, &'a Scalar<S>, &'b Point<P>);
 impl_scalar_point!(Mul, mul, Point<P>, &'a Scalar<S>, Point<P>);
 impl_scalar_point!(Mul, mul, Point<P>, Scalar<S>, &'b Point<P>);
+impl_scalar_point!(Mul, mul, Point<P>, Scalar<S>, Point<P>);
 
 macro_rules! impl_scalar_assign {
     ($op:ident, $opf:ident, $opf_a:ident, $lt:ty, $rt:ty) => {

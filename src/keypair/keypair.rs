@@ -18,7 +18,7 @@ impl<P: DisLogPoint, S: ScalarNumber> Keypair<P, S> {
         let result = hasher.finalize();
         let (c, s) = result.split_at(result.len() / 2);
         let secret = Scalar::from_bytes(s);
-        let public = Point::one() * &secret;
+        let public = Point::basepoint() * &secret;
         Self {
             seed,
             code: bytes::Output::<S>::clone_from_slice(c),

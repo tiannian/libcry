@@ -3,3 +3,4 @@
 pub mod dh;
 pub mod keypair;
 pub mod primitive;
+pub mod schnorr;
