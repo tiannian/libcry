@@ -1,8 +1,9 @@
+use crate::primitive::bytes::{self, Bytes};
 use crate::primitive::scalar::ScalarNumber;
 use curve25519_dalek::scalar;
-use crate::primitive::bytes::{Bytes, self};
 use generic_array::typenum::U32;
 
+#[derive(Debug, Clone)]
 pub struct Scalar(pub scalar::Scalar);
 
 impl Bytes for Scalar {
@@ -15,7 +16,6 @@ impl Bytes for Scalar {
     fn from_bytes(data: bytes::Output<Self>) -> Self {
         Self(scalar::Scalar::from_bytes_mod_order(data.into()))
     }
-
 }
 
 impl ScalarNumber for Scalar {
@@ -52,6 +52,4 @@ impl ScalarNumber for Scalar {
     fn sub(&self, _rhs: &Self) -> Self {
         Self(self.0 - _rhs.0)
     }
-
 }
-

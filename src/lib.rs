@@ -1,7 +1,11 @@
 #![no_std]
 
-// pub mod dh;
-// pub mod keypair;
+#[cfg(test)]
+#[macro_use]
+extern crate std;
+
+pub mod dh;
+pub mod keypair;
 pub mod primitive;
 // pub mod schnorr;
 pub mod ristretto255;

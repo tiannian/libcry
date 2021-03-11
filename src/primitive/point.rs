@@ -1,12 +1,13 @@
 //! Define Point.
 
+use super::bytes::{self, Bytes};
 use super::scalar::{Scalar, ScalarNumber};
+use core::cmp::{Eq, PartialEq};
+use core::fmt::Debug;
 use core::ops::{Add, AddAssign, Mul, MulAssign, Neg, Sub, SubAssign};
-use core::cmp::{PartialEq, Eq};
-use super::bytes::{Bytes, self};
 
 /// Point trait.
-pub trait DisLogPoint: Clone + Bytes {
+pub trait DisLogPoint: Clone + Bytes + Debug {
     const SIZE: usize;
 
     type Scalar: ScalarNumber;
@@ -34,7 +35,7 @@ pub trait DisLogPoint: Clone + Bytes {
 }
 
 /// Point.
-#[derive(Clone, Eq)]
+#[derive(Debug, Clone, Eq)]
 pub struct Point<P: DisLogPoint>(pub P);
 
 impl<P: DisLogPoint> Point<P> {

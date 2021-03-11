@@ -1,10 +1,11 @@
 //! Define scalar.
-use super::bytes::{Bytes, self};
+use super::bytes::{self, Bytes};
 use super::point::{DisLogPoint, Point};
+use core::fmt::Debug;
 use core::ops::{Add, AddAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
 /// Trait for scalar.
-pub trait ScalarNumber: Bytes {
+pub trait ScalarNumber: Bytes + Debug + Clone {
     const SIZE: usize;
 
     fn zero() -> Self;
@@ -30,6 +31,7 @@ pub trait ScalarNumber: Bytes {
 }
 
 /// Scalar types.
+#[derive(Debug, Clone)]
 pub struct Scalar<S: ScalarNumber>(pub S);
 
 impl<S: ScalarNumber> Scalar<S> {

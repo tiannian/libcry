@@ -1,15 +1,15 @@
+use super::scalar::Scalar;
+use crate::primitive::bytes::{self, Bytes};
+use crate::primitive::point::DisLogPoint;
+use curve25519_dalek::constants::RISTRETTO_BASEPOINT_POINT;
 use curve25519_dalek::ristretto;
 use curve25519_dalek::traits::Identity;
-use curve25519_dalek::constants::RISTRETTO_BASEPOINT_POINT;
-use crate::primitive::point::DisLogPoint;
-use crate::primitive::bytes::{Bytes, self};
 use generic_array::typenum::U32;
-use super::scalar::Scalar;
 
-#[derive(Clone)]
-pub struct RistrettoPoint(pub ristretto::RistrettoPoint);
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct Point(pub ristretto::RistrettoPoint);
 
-impl Bytes for RistrettoPoint {
+impl Bytes for Point {
     type OutputSize = U32;
 
     fn from_bytes(data: bytes::Output<Self>) -> Self {
@@ -24,37 +24,36 @@ impl Bytes for RistrettoPoint {
     }
 }
 
-impl DisLogPoint for RistrettoPoint {
+impl DisLogPoint for Point {
     const SIZE: usize = 32;
 
     type Scalar = Scalar;
 
     fn zero() -> Self {
-        RistrettoPoint(ristretto::RistrettoPoint::identity())
+        Self(ristretto::RistrettoPoint::identity())
     }
 
     fn one() -> Self {
-        RistrettoPoint(ristretto::RistrettoPoint::identity())
+        Self(ristretto::RistrettoPoint::identity())
     }
 
     fn basepoint() -> Self {
-        RistrettoPoint(RISTRETTO_BASEPOINT_POINT)
+        Self(RISTRETTO_BASEPOINT_POINT)
     }
 
     fn add(&self, rhs: &Self) -> Self {
-        RistrettoPoint(self.0 + rhs.0)
+        Self(self.0 + rhs.0)
     }
 
     fn mul(&self, rhs: &Self::Scalar) -> Self {
-        RistrettoPoint(self.0 * rhs.0)
+        Self(self.0 * rhs.0)
     }
 
     fn neg(&self) -> Self {
-        RistrettoPoint(- self.0)
+        Self(-self.0)
     }
 
     fn eq(&self, o: &Self) -> bool {
         self.0 == o.0
     }
 }
-
