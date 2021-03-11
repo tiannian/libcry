@@ -9,6 +9,8 @@ use super::bytes::{Bytes, self};
 pub trait DisLogPoint: Clone + Bytes {
     const SIZE: usize;
 
+    type Scalar: ScalarNumber;
+
     fn zero() -> Self;
 
     fn one() -> Self;
@@ -17,7 +19,7 @@ pub trait DisLogPoint: Clone + Bytes {
 
     fn add(&self, rhs: &Self) -> Self;
 
-    fn mul<S: ScalarNumber>(&self, rhs: &S) -> Self;
+    fn mul(&self, rhs: &Self::Scalar) -> Self;
 
     fn neg(&self) -> Self;
 
@@ -32,7 +34,7 @@ pub trait DisLogPoint: Clone + Bytes {
 }
 
 /// Point.
-#[derive(Clone)]
+#[derive(Clone, Eq)]
 pub struct Point<P: DisLogPoint>(pub P);
 
 impl<P: DisLogPoint> Point<P> {
@@ -80,7 +82,7 @@ macro_rules! impl_point {
 
 macro_rules! impl_scalar_point {
     ($op:ident, $opf:ident, $t:ty, $lt:ty, $rt:ty) => {
-        impl<'a, 'b, S: ScalarNumber, P: DisLogPoint> $op<$rt> for $lt {
+        impl<'a, 'b, S: ScalarNumber, P: DisLogPoint<Scalar = S>> $op<$rt> for $lt {
             type Output = $t;
             fn $opf(self, rhs: $rt) -> $t {
                 Point(self.0.$opf(&rhs.0))
@@ -115,7 +117,7 @@ macro_rules! impl_point_assign {
 
 macro_rules! impl_point_scalar_assign {
     ($op:ident, $opf:ident, $opf_a:ident, $lt:ty, $rt:ty) => {
-        impl<'a, 'b, P: DisLogPoint, S: ScalarNumber> $op<$rt> for $lt {
+        impl<'a, 'b, P: DisLogPoint<Scalar = S>, S: ScalarNumber> $op<$rt> for $lt {
             fn $opf_a(&mut self, rhs: $rt) {
                 self.0 = self.0.$opf(&rhs.0)
             }

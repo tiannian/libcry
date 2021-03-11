@@ -67,7 +67,7 @@ macro_rules! impl_scalar {
 
 macro_rules! impl_scalar_point {
     ($op:ident, $opf:ident, $t:ty, $lt:ty, $rt:ty) => {
-        impl<'a, 'b, S: ScalarNumber, P: DisLogPoint> $op<$rt> for $lt {
+        impl<'a, 'b, S: ScalarNumber, P: DisLogPoint<Scalar = S>> $op<$rt> for $lt {
             type Output = $t;
             fn $opf(self, rhs: $rt) -> $t {
                 Point(rhs.0.$opf(&self.0))
