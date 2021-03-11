@@ -5,7 +5,7 @@ pub type Output<D> = GenericArray<u8, <D as Bytes>::OutputSize>;
 pub trait Bytes: Sized {
     type OutputSize: ArrayLength<u8>;
 
-    fn from_bytes(data: &[u8]) -> Self;
+    fn from_bytes(data: Output<Self>) -> Self;
 
     fn to_bytes(&self) -> Output<Self>;
 }

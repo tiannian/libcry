@@ -1,5 +1,5 @@
 //! Define scalar.
-use super::bytes::{Bytes, Output};
+use super::bytes::{Bytes, self};
 use super::point::{DisLogPoint, Point};
 use core::ops::{Add, AddAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
@@ -45,11 +45,11 @@ impl<S: ScalarNumber> Scalar<S> {
 impl<S: ScalarNumber> Bytes for Scalar<S> {
     type OutputSize = S::OutputSize;
 
-    fn to_bytes(&self) -> Output<Self> {
+    fn to_bytes(&self) -> bytes::Output<Self> {
         self.0.to_bytes()
     }
 
-    fn from_bytes(data: &[u8]) -> Self {
+    fn from_bytes(data: bytes::Output<Self>) -> Self {
         Self(S::from_bytes(data))
     }
 }

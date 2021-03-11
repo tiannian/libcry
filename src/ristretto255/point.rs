@@ -4,7 +4,7 @@ use curve25519_dalek::constants::RISTRETTO_BASEPOINT_POINT;
 use crate::primitive::point::DisLogPoint;
 use crate::primitive::bytes::{Bytes, self};
 use generic_array::typenum::U32;
-use crate::primitive::scalar::ScalarNumber;
+use super::scalar::Scalar;
 
 #[derive(Clone)]
 pub struct RistrettoPoint(pub ristretto::RistrettoPoint);
@@ -12,8 +12,8 @@ pub struct RistrettoPoint(pub ristretto::RistrettoPoint);
 impl Bytes for RistrettoPoint {
     type OutputSize = U32;
 
-    fn from_bytes(data: &[u8]) -> Self {
-        let point = ristretto::CompressedRistretto::from_slice(data);
+    fn from_bytes(data: bytes::Output<Self>) -> Self {
+        let point = ristretto::CompressedRistretto::from_slice(&data);
         let de_point = point.decompress().unwrap();
         Self(de_point)
     }
@@ -27,7 +27,7 @@ impl Bytes for RistrettoPoint {
 impl DisLogPoint for RistrettoPoint {
     const SIZE: usize = 32;
 
-    // type Scalar =
+    type Scalar = Scalar;
 
     fn zero() -> Self {
         RistrettoPoint(ristretto::RistrettoPoint::identity())
@@ -45,8 +45,8 @@ impl DisLogPoint for RistrettoPoint {
         RistrettoPoint(self.0 + rhs.0)
     }
 
-    fn mul<S: ScalarNumber>(&self, rhs: &S) -> Self {
-        RistrettoPoint(self.0 * rhs)
+    fn mul(&self, rhs: &Self::Scalar) -> Self {
+        RistrettoPoint(self.0 * rhs.0)
     }
 
     fn neg(&self) -> Self {

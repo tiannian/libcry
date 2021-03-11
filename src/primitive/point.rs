@@ -58,7 +58,7 @@ impl<P: DisLogPoint> Bytes for Point<P> {
         self.0.to_bytes()
     }
 
-    fn from_bytes(data: &[u8]) -> Self {
+    fn from_bytes(data: bytes::Output<Self>) -> Self {
         Self(P::from_bytes(data))
     }
 }
