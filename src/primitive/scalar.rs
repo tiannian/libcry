@@ -1,11 +1,11 @@
 //! Define scalar.
-use super::bytes::{self, Bytes};
+use super::bytes::{self, Bytes, FromWideByte};
 use super::point::{DisLogPoint, Point};
 use core::fmt::Debug;
 use core::ops::{Add, AddAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
 /// Trait for scalar.
-pub trait ScalarNumber: Bytes + Debug + Clone {
+pub trait ScalarNumber: FromWideByte + Bytes + Debug + Clone {
     const SIZE: usize;
 
     fn zero() -> Self;

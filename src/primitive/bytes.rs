@@ -9,3 +9,10 @@ pub trait Bytes: Sized {
 
     fn to_bytes(&self) -> Output<Self>;
 }
+
+pub trait FromWideByte: Bytes {
+    type FromSize: ArrayLength<u8>;
+
+    fn from_wide_bytes(data: Output<Self>) -> Self;
+}
+
