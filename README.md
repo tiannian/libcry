@@ -4,10 +4,13 @@
 
 - [X] primitive: abstruct for all cryptography primitive. include `ECC`, `Sponge`.
 - [X] ristretto255: support `ECC` operator at ristretto255.
+- [ ] KeccakF: 
 - [ ] sm2: support `ECC` operator at sm2.
 - [X] keypair: generate secret key and public key.
 - [X] DH: Diffie-Hellman.
 - [X] Schnorr: Schnorr signature.
+- [ ] Sha3:
+- [ ] Strobe:
 - [ ] ECDSA: Digital Signature Algroithm.
 - [X] keyderive: derive key define at BIP32.
 - [ ] pederson: Pederson Commitment.
