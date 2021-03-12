@@ -18,6 +18,10 @@ impl<P: DisLogPoint<Scalar = S>, S: ScalarNumber> Keypair<P, S> {
         assert_eq!(D::output_size(), S::SIZE * 2);
         let mut hasher = D::new();
         hasher.update(seed.clone());
+        Keypair::new_from_hash(seed, hasher)
+    }
+
+    fn new_from_hash<D: Digest>(seed: bytes::Output<S>, hasher: D) -> Self {
         let result = hasher.finalize();
         let (c, s) = result.split_at(result.len() / 2);
         // here will clone, but it seems ok.
@@ -37,5 +41,27 @@ impl<P: DisLogPoint<Scalar = S>, S: ScalarNumber> Keypair<P, S> {
 
     pub fn to_bare_public(&self) -> BarePublicKey<P> {
         BarePublicKey::from_keypair(self)
+    }
+
+    pub fn derive<D: Digest>(&self, id:bytes::Output<S>) -> Self {
+        let mut hasher = D::new();
+        hasher.update(self.public.to_bytes());
+        hasher.update(&id);
+        hasher.update(&self.code);
+
+        let seed = GenericArray::default();
+
+        let result = hasher.finalize();
+        let (c, s) = result.split_at(result.len() / 2);
+        // here will clone, but it seems ok.
+        let part = Scalar::from_bytes(GenericArray::clone_from_slice(s));
+        let secret = part + &self.secret;
+        let public = Point::basepoint() * &secret;
+        Self {
+            seed,
+            code: bytes::Output::<S>::clone_from_slice(c),
+            secret,
+            public,
+        }
     }
 }
