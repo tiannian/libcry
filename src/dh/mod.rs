@@ -19,7 +19,6 @@ impl<P: DisLogPoint<Scalar = S>, S: ScalarNumber> SharedKey<P> {
 
 #[cfg(test)]
 mod tests {
-
     use super::*;
     use crate::ristretto255;
     use rand::RngCore;

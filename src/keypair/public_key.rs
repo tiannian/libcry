@@ -36,3 +36,33 @@ impl<P: DisLogPoint, S: ScalarNumber> PublicKey<P, S> {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::ristretto255;
+    use rand::RngCore;
+    use sha3::Sha3_512;
+
+    #[test]
+    fn test_key_derive() {
+        let mut rng = rand::thread_rng();
+        let mut seed = [0u8; 32];
+        rng.fill_bytes(&mut seed);
+        let keypair =
+            Keypair::<ristretto255::Point, ristretto255::Scalar>::new::<Sha3_512>(seed.into());
+
+        let root_public_key = keypair.to_public();
+
+        let mut rng = rand::thread_rng();
+        let mut id_array = [0u8; 32];
+        rng.fill_bytes(&mut id_array);
+
+        let sub_public_key = root_public_key.derive::<Sha3_512>(id_array.into());
+
+        let sub_keypair = keypair.derive::<Sha3_512>(id_array.into());
+
+        assert_eq!(sub_keypair.public, sub_public_key.public);
+    }
+}
+

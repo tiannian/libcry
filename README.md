@@ -9,7 +9,7 @@
 - [X] DH: Diffie-Hellman.
 - [X] Schnorr: Schnorr signature.
 - [ ] ECDSA: Digital Signature Algroithm.
-- [ ] keyderive: derive key define at BIP32.
+- [X] keyderive: derive key define at BIP32.
 - [ ] pederson: Pederson Commitment.
 - [ ] SSS: Shamir’s Secret Sharing.
 - [ ] VSS: Verifiable Secret Sharing.
