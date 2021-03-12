@@ -1,7 +1,8 @@
-use crate::primitive::bytes::{self, Bytes, FromWideByte};
+use crate::primitive::bytes::{self, Bytes, FromBytesRef};
 use crate::primitive::scalar::ScalarNumber;
 use curve25519_dalek::scalar;
 use generic_array::typenum::{U32, U64};
+use core::convert::TryInto;
 
 #[derive(Debug, Clone)]
 pub struct Scalar(pub scalar::Scalar);
@@ -18,12 +19,13 @@ impl Bytes for Scalar {
     }
 }
 
-impl FromWideByte for Scalar {
-    type FromSize = U64;
-
-    fn from_wide_bytes(data: bytes::Output<Self>) -> Self {
-        let d: [u8; 64] = data.into();
-        Self(scalar::Scalar::from_bytes_mod_order_wide(data.as_slice()))
+impl FromBytesRef for Scalar {
+    fn from_bytes_ref(data: &[u8]) -> Option<Self> {
+        if data.len() != 64 {
+            return None;
+        }
+        let s_inner: &[u8; 64] = data.try_into().unwrap();
+        Some(Self(scalar::Scalar::from_bytes_mod_order_wide(s_inner)))
     }
 }
 

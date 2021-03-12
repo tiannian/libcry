@@ -1,5 +1,5 @@
 use crate::keypair::{BarePublicKey, Keypair};
-use crate::primitive::bytes::Bytes;
+use crate::primitive::bytes::{Bytes, FromBytesRef};
 use crate::primitive::point::{DisLogPoint, Point};
 use crate::primitive::scalar::{Scalar, ScalarNumber};
 use digest::Digest;
@@ -17,7 +17,7 @@ impl<P: DisLogPoint<Scalar = S>, S: ScalarNumber> Signature<P, S> {
         hasher_r.update(sk.code);
         hasher_r.update(message.as_ref());
         let r = hasher_r.finalize();
-        let r_scalar = Scalar::<S>::from_bytes(r.as_ref());
+        let r_scalar = Scalar::from_bytes_ref(&r).unwrap();
         let R = Point::basepoint() * &r_scalar;
 
         let mut hasher_s = D::new();
@@ -25,7 +25,7 @@ impl<P: DisLogPoint<Scalar = S>, S: ScalarNumber> Signature<P, S> {
         hasher_s.update(sk.public.to_bytes());
         hasher_s.update(message.as_ref());
         let s_bytes = hasher_s.finalize();
-        let a = Scalar::from_bytes(s_bytes.as_ref());
+        let a = Scalar::from_bytes_ref(&s_bytes).unwrap();
 
         let s = r_scalar + a * sk.secret;
 
@@ -40,7 +40,7 @@ impl<P: DisLogPoint<Scalar = S>, S: ScalarNumber> Signature<P, S> {
         hasher.update(pk.public.to_bytes());
         hasher.update(message.as_ref());
         let s_bytes = hasher.finalize();
-        let a = Scalar::<S>::from_bytes(s_bytes.as_ref());
+        let a = Scalar::from_bytes_ref(&s_bytes).unwrap();
 
         let rp = &self.R + a * pk.public;
 

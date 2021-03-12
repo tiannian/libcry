@@ -1,11 +1,11 @@
 //! Define scalar.
-use super::bytes::{self, Bytes, FromWideByte};
+use super::bytes::{self, Bytes, FromBytesRef};
 use super::point::{DisLogPoint, Point};
 use core::fmt::Debug;
 use core::ops::{Add, AddAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
 /// Trait for scalar.
-pub trait ScalarNumber: FromWideByte + Bytes + Debug + Clone {
+pub trait ScalarNumber: FromBytesRef + Bytes + Debug + Clone {
     const SIZE: usize;
 
     fn zero() -> Self;
@@ -53,6 +53,12 @@ impl<S: ScalarNumber> Bytes for Scalar<S> {
 
     fn from_bytes(data: bytes::Output<Self>) -> Self {
         Self(S::from_bytes(data))
+    }
+}
+
+impl<S: ScalarNumber> FromBytesRef for Scalar<S> {
+    fn from_bytes_ref(data: &[u8]) -> Option<Self> {
+        Some(Self(S::from_bytes_ref(data)?))
     }
 }
 
