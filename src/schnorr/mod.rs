@@ -5,6 +5,7 @@ use crate::primitive::scalar::{Scalar, ScalarNumber};
 use digest::Digest;
 
 #[allow(non_snake_case)]
+#[derive(Debug, Clone)]
 pub struct Signature<P: DisLogPoint<Scalar = S>, S: ScalarNumber> {
     pub R: Point<P>,
     pub s: Scalar<S>,
@@ -12,9 +13,9 @@ pub struct Signature<P: DisLogPoint<Scalar = S>, S: ScalarNumber> {
 
 impl<P: DisLogPoint<Scalar = S>, S: ScalarNumber> Signature<P, S> {
     #[allow(non_snake_case)]
-    pub fn sign<D: Digest, M: AsRef<[u8]>>(sk: Keypair<P, S>, message: M) -> Signature<P, S> {
+    pub fn sign<D: Digest, M: AsRef<[u8]>>(sk: &Keypair<P, S>, message: &M) -> Signature<P, S> {
         let mut hasher_r = D::new();
-        hasher_r.update(sk.code);
+        hasher_r.update(&sk.code);
         hasher_r.update(message.as_ref());
         let r = hasher_r.finalize();
         let r_scalar = Scalar::from_bytes_ref(&r).unwrap();
@@ -27,12 +28,12 @@ impl<P: DisLogPoint<Scalar = S>, S: ScalarNumber> Signature<P, S> {
         let s_bytes = hasher_s.finalize();
         let a = Scalar::from_bytes_ref(&s_bytes).unwrap();
 
-        let s = r_scalar + a * sk.secret;
+        let s = r_scalar + a * &sk.secret;
 
         Signature { R, s }
     }
 
-    pub fn verify<D: Digest, M: AsRef<[u8]>>(&self, pk: BarePublicKey<P>, message: M) -> bool {
+    pub fn verify<D: Digest, M: AsRef<[u8]>>(&self, pk: &BarePublicKey<P>, message: &M) -> bool {
         let s_g = &self.s * Point::<P>::basepoint();
 
         let mut hasher = D::new();
@@ -42,8 +43,29 @@ impl<P: DisLogPoint<Scalar = S>, S: ScalarNumber> Signature<P, S> {
         let s_bytes = hasher.finalize();
         let a = Scalar::from_bytes_ref(&s_bytes).unwrap();
 
-        let rp = &self.R + a * pk.public;
+        let rp = &self.R + a * &pk.public;
 
         s_g == rp
+    }
+}
+
+#[cfg(test)]
+mod tests {
+
+    use super::*;
+    use crate::ristretto255;
+    use rand::RngCore;
+    use sha3::Sha3_512;
+
+    #[test]
+    fn test_schnorr() {
+        let mut rng = rand::thread_rng();
+        let mut seed = [0u8; 32];
+        rng.fill_bytes(&mut seed);
+        let keypair =
+            Keypair::<ristretto255::Point, ristretto255::Scalar>::new::<Sha3_512>(seed.into());
+        let signature = Signature::sign::<Sha3_512, _>(&keypair, b"asda");
+        let res = signature.verify::<Sha3_512, _>(&keypair.to_bare_public(), b"asda");
+        assert!(res);
     }
 }

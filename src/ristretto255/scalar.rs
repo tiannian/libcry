@@ -1,8 +1,8 @@
 use crate::primitive::bytes::{self, Bytes, FromBytesRef};
 use crate::primitive::scalar::ScalarNumber;
-use curve25519_dalek::scalar;
-use generic_array::typenum::{U32, U64};
 use core::convert::TryInto;
+use curve25519_dalek::scalar;
+use generic_array::typenum::U32;
 
 #[derive(Debug, Clone)]
 pub struct Scalar(pub scalar::Scalar);
