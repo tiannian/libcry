@@ -7,5 +7,5 @@ extern crate std;
 pub mod dh;
 pub mod keypair;
 pub mod primitive;
-// pub mod schnorr;
 pub mod ristretto255;
+pub mod schnorr;
