@@ -1,6 +1,6 @@
 [package]
 name = "cry"
-version = "0.1.2"
+version = "0.1.3"
 authors = ["tiannian <dtiannian@aliyun.com>"]
 edition = "2018"
 description = "Advance cryptography based on ECC and permutation cryptography."
