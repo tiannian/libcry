@@ -4,6 +4,7 @@ use crate::primitive::point::{DisLogPoint, Point};
 use crate::primitive::scalar::{ScalarNumber, Scalar};
 use digest::Digest;
 use generic_array::GenericArray;
+use super::BarePublicKey;
 
 pub struct PublicKey<P: DisLogPoint, S: ScalarNumber> {
     pub code: bytes::Output<S>,
@@ -33,6 +34,12 @@ impl<P: DisLogPoint, S: ScalarNumber> PublicKey<P, S> {
         Self {
             code: bytes::Output::<S>::clone_from_slice(c),
             public,
+        }
+    }
+
+    pub fn to_bare_public(&self) -> BarePublicKey<P> {
+        BarePublicKey {
+            public: self.public.clone()
         }
     }
 }
