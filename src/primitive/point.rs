@@ -1,13 +1,13 @@
 //! Define Point.
 
-use super::bytes::{self, Bytes};
+use super::bytes::Bytes;
 use super::scalar::{Scalar, ScalarNumber};
 use core::cmp::{Eq, PartialEq};
 use core::fmt::Debug;
 use core::ops::{Add, AddAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
 /// Point trait.
-pub trait DisLogPoint: Clone + Bytes + Debug {
+pub trait DisLogPoint: Clone + Bytes + Debug + PartialEq {
     const SIZE: usize;
 
     type Scalar: ScalarNumber;
@@ -35,7 +35,7 @@ pub trait DisLogPoint: Clone + Bytes + Debug {
 }
 
 /// Point.
-#[derive(Debug, Clone, Eq)]
+#[derive(Debug, Clone, Eq, PartialEq)]
 pub struct Point<P: DisLogPoint>(pub P);
 
 impl<P: DisLogPoint> Point<P> {
@@ -50,23 +50,13 @@ impl<P: DisLogPoint> Point<P> {
     pub fn basepoint() -> Self {
         Point(P::basepoint())
     }
-}
 
-impl<P: DisLogPoint> Bytes for Point<P> {
-    type OutputSize = P::OutputSize;
-
-    fn to_bytes(&self) -> bytes::Output<Self> {
+    pub fn to_bytes(&self) -> [u8; P::BYTES_LENGTH] {
         self.0.to_bytes()
     }
 
-    fn from_bytes(data: bytes::Output<Self>) -> Self {
+    pub fn from_bytes(data: [u8; P::BYTES_LENGTH]) -> Self {
         Self(P::from_bytes(data))
-    }
-}
-
-impl<P: DisLogPoint> PartialEq for Point<P> {
-    fn eq(&self, o: &Self) -> bool {
-        self.0.eq(&o.0)
     }
 }
 

@@ -1,20 +1,11 @@
-use generic_array::{ArrayLength, GenericArray};
-
-pub type Output<D> = GenericArray<u8, <D as Bytes>::OutputSize>;
-
 pub trait Bytes: Sized {
-    type OutputSize: ArrayLength<u8>;
+    const BYTES_LENGTH: usize;
 
-    fn from_bytes(data: Output<Self>) -> Self;
+    fn from_bytes(data: [u8; Self::BYTES_LENGTH]) -> Self;
 
-    fn to_bytes(&self) -> Output<Self>;
+    fn to_bytes(&self) -> [u8; Self::BYTES_LENGTH];
 }
 
-pub trait FromBytesRef: Sized {
-    fn from_bytes_ref(data: &[u8]) -> Option<Self>;
+pub trait FromBytesWide: Bytes {
+    fn from_bytes_wide(data: [u8; <Self as Bytes>::BYTES_LENGTH * 2]) -> Self;
 }
-
-// pub trait FromHash {
-//     fn from_hash()
-// }
-//
