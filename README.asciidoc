@@ -1,0 +1,32 @@
+= Cry
+
+Cry is a advance cryptography library based on ECC and permutation.
+
+== Papers
+
+|====
+| Scheme | Paper or Reference | Status | Comment
+
+| ristretto255 | https://ristretto.group/ristretto.html[Ristretto Group] | ✓ |
+
+| sm2 | https://www.iso.org/standard/53613.html[ISO/IEC 14888-3/AMD1] | ✗ |
+
+| keypair .2+| https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki[BIP32] | ✓ | Only generate private key
+
+| keyderive | ✓ | Only key derive
+
+| ECDH | https://link.springer.com/chapter/10.1007/11745853_14[Diffie-Hellman] | ✓ |
+
+| Schnorr | https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki[Schnorr Signature] | ✓ |
+
+| Pederson | https://link.springer.com/content/pdf/10.1007%2F3-540-46766-1_9.pdf#page=3[Pederson Commitment] | ✓ |
+
+| SSS .4+| https://www.researchgate.net/profile/Willy-Susilo/publication/242499559_Information_Security_and_Privacy_13th_Australasian_Conference_ACISP_2008_Wollongong_Australia_July_7-9_2008_Proceedings/links/00b495314f3bcaaa46000000/Information-Security-and-Privacy-13th-Australasian-Conference-ACISP-2008-Wollongong-Australia-July-7-9-2008-Proceedings.pdf#page=426[Threshold Schnorr Signature] | ✗ |
+
+| VSS |  ✗ |
+
+| DKG |  ✗ |
+
+| Threshold Schnorr Signature |  ✗ |
+
+
