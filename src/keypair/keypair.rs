@@ -43,7 +43,7 @@ impl<P: DisLogPoint<Scalar = S>, S: ScalarNumber> Keypair<P, S> {
         BarePublicKey::from_keypair(self)
     }
 
-    pub fn derive<D: Digest>(&self, id:bytes::Output<S>) -> Self {
+    pub fn derive<D: Digest>(&self, id: bytes::Output<S>) -> Self {
         let mut hasher = D::new();
         hasher.update(self.public.to_bytes());
         hasher.update(&id);

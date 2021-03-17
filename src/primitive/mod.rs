@@ -1,4 +1,4 @@
-//! Define primitive for crypto.
+//! Define primitives for cry.
 
 pub mod bytes;
 pub mod digest;

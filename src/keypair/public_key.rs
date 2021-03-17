@@ -1,10 +1,10 @@
+use super::BarePublicKey;
 use super::Keypair;
-use crate::primitive::bytes::{Bytes, self};
+use crate::primitive::bytes::{self, Bytes};
 use crate::primitive::point::{DisLogPoint, Point};
-use crate::primitive::scalar::{ScalarNumber, Scalar};
+use crate::primitive::scalar::{Scalar, ScalarNumber};
 use digest::Digest;
 use generic_array::GenericArray;
-use super::BarePublicKey;
 
 pub struct PublicKey<P: DisLogPoint, S: ScalarNumber> {
     pub code: bytes::Output<S>,
@@ -19,7 +19,7 @@ impl<P: DisLogPoint, S: ScalarNumber> PublicKey<P, S> {
         }
     }
 
-    pub fn derive<D: Digest>(&self, id:bytes::Output<S>) -> Self {
+    pub fn derive<D: Digest>(&self, id: bytes::Output<S>) -> Self {
         let mut hasher = D::new();
         hasher.update(self.public.to_bytes());
         hasher.update(&id);
@@ -39,7 +39,7 @@ impl<P: DisLogPoint, S: ScalarNumber> PublicKey<P, S> {
 
     pub fn to_bare_public(&self) -> BarePublicKey<P> {
         BarePublicKey {
-            public: self.public.clone()
+            public: self.public.clone(),
         }
     }
 }
@@ -72,4 +72,3 @@ mod tests {
         assert_eq!(sub_keypair.public, sub_public_key.public);
     }
 }
-
