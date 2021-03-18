@@ -1,7 +1,10 @@
+//! Define serialize and deserialize behavior.
+
 use generic_array::{ArrayLength, GenericArray};
 
 pub type Output<D> = GenericArray<u8, <D as Bytes>::OutputSize>;
 
+/// Convert data format between bytes and struct.
 pub trait Bytes: Sized {
     type OutputSize: ArrayLength<u8>;
 

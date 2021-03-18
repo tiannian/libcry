@@ -4,6 +4,7 @@ use crate::primitive::point::{DisLogPoint, Point};
 use crate::primitive::scalar::{Scalar, ScalarNumber};
 use digest::Digest;
 
+/// Schorr Signature
 #[allow(non_snake_case)]
 #[derive(Debug, Clone)]
 pub struct Signature<P: DisLogPoint<Scalar = S>, S: ScalarNumber> {
@@ -12,6 +13,8 @@ pub struct Signature<P: DisLogPoint<Scalar = S>, S: ScalarNumber> {
 }
 
 impl<P: DisLogPoint<Scalar = S>, S: ScalarNumber> Signature<P, S> {
+
+    /// Create signature from keypair and message.
     #[allow(non_snake_case)]
     pub fn sign<D: Digest, M: AsRef<[u8]>>(sk: &Keypair<P, S>, message: &M) -> Signature<P, S> {
         let mut hasher_r = D::new();
@@ -33,6 +36,7 @@ impl<P: DisLogPoint<Scalar = S>, S: ScalarNumber> Signature<P, S> {
         Signature { R, s }
     }
 
+    /// Verify signature 
     pub fn verify<D: Digest, M: AsRef<[u8]>>(&self, pk: &BarePublicKey<P>, message: &M) -> bool {
         let s_g = &self.s * Point::<P>::basepoint();
 

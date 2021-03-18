@@ -1,4 +1,4 @@
-//! Define Point.
+//! Define Point behavier.
 
 use super::bytes::{self, Bytes};
 use super::scalar::{Scalar, ScalarNumber};

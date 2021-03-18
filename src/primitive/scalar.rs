@@ -1,4 +1,4 @@
-//! Define scalar.
+//! Define scalar behavior.
 use super::bytes::{self, Bytes, FromBytesRef};
 use super::point::{DisLogPoint, Point};
 use core::fmt::Debug;
