@@ -27,6 +27,8 @@ Cry is a advance cryptography library based on ECC and permutation.
 
 | Schnorr | https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki[Schnorr Signature] | ✓ |
 
+| MuSig | https://eprint.iacr.org/2018/068[Signatures aggregated] | ✗ |
+
 | Pederson | https://link.springer.com/content/pdf/10.1007%2F3-540-46766-1_9.pdf#page=3[Pederson Commitment] | ✓ |
 
 | SSS .4+| https://www.researchgate.net/profile/Willy-Susilo/publication/242499559_Information_Security_and_Privacy_13th_Australasian_Conference_ACISP_2008_Wollongong_Australia_July_7-9_2008_Proceedings/links/00b495314f3bcaaa46000000/Information-Security-and-Privacy-13th-Australasian-Conference-ACISP-2008-Wollongong-Australia-July-7-9-2008-Proceedings.pdf#page=426[Threshold Schnorr Signature] | ✗ | Shamir’s Secret Sharing
@@ -39,7 +41,6 @@ Cry is a advance cryptography library based on ECC and permutation.
 
 | VRF | https://eprint.iacr.org/2017/099.pdf[Verifiable Random Function] | ✗ |
 
-| MuSig | https://eprint.iacr.org/2018/068[Signatures aggregated] | ✗ |
 
 
 
