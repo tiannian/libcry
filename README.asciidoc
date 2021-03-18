@@ -27,7 +27,7 @@ Cry is a advance cryptography library based on ECC and permutation.
 
 | Schnorr | https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki[Schnorr Signature] | ✓ |
 
-| MuSig | https://eprint.iacr.org/2018/068[Signatures aggregated] | ✗ |
+| MuSig | https://eprint.iacr.org/2018/068[Signatures aggregated] | ✓ | Need more test.
 
 | Pederson | https://link.springer.com/content/pdf/10.1007%2F3-540-46766-1_9.pdf#page=3[Pederson Commitment] | ✓ |
 

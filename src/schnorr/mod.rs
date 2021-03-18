@@ -1,3 +1,5 @@
+//! Schnorr signature and schnorr multi-signature.
+
 use crate::keypair::{BarePublicKey, Keypair};
 use crate::primitive::bytes::{Bytes, FromBytesRef};
 use crate::primitive::point::{DisLogPoint, Point};
@@ -13,7 +15,6 @@ pub struct Signature<P: DisLogPoint<Scalar = S>, S: ScalarNumber> {
 }
 
 impl<P: DisLogPoint<Scalar = S>, S: ScalarNumber> Signature<P, S> {
-
     /// Create signature from keypair and message.
     #[allow(non_snake_case)]
     pub fn sign<D: Digest, M: AsRef<[u8]>>(sk: &Keypair<P, S>, message: &M) -> Signature<P, S> {
@@ -36,7 +37,52 @@ impl<P: DisLogPoint<Scalar = S>, S: ScalarNumber> Signature<P, S> {
         Signature { R, s }
     }
 
-    /// Verify signature 
+    #[allow(non_snake_case)]
+    pub fn sign_multi_party<D: Digest, M: AsRef<[u8]>>(
+        sk: &Keypair<P, S>,
+        rs: &[Point<P>],
+        ps: &[BarePublicKey<P>],
+        message: &M,
+    ) -> (Signature<P, S>, BarePublicKey<P>) {
+        let mut hasher_r = D::new();
+        hasher_r.update(&sk.code);
+        hasher_r.update(message.as_ref());
+        let r_i = hasher_r.finalize();
+        let r_scalar = Scalar::from_bytes_ref(&r_i).unwrap();
+        let R_i = Point::basepoint() * &r_scalar;
+
+        let mut hasher_a_i = D::new();
+        for p in ps {
+            hasher_a_i.update(p.public.to_bytes());
+        }
+        hasher_a_i.update(sk.public.to_bytes());
+        let a_i = hasher_a_i.finalize();
+        let a_scalar = Scalar::from_bytes_ref(&a_i).unwrap();
+
+        let mut R = R_i.clone();
+        for r in rs {
+            R += r;
+        }
+
+        let mut X = Point::zero();
+        for p in ps {
+            X += &p.public;
+        }
+
+        let mut hasher_c = D::new();
+        hasher_c.update(X.to_bytes());
+        hasher_c.update(R.to_bytes());
+        hasher_c.update(message.as_ref());
+        let c = hasher_c.finalize();
+        let c_scalar = Scalar::from_bytes_ref(&c).unwrap();
+
+        let s = r_scalar + c_scalar * a_scalar * &sk.secret;
+        let sign = Signature { R, s };
+        let pk = BarePublicKey { public: X };
+        (sign, pk)
+    }
+
+    /// Verify signature
     pub fn verify<D: Digest, M: AsRef<[u8]>>(&self, pk: &BarePublicKey<P>, message: &M) -> bool {
         let s_g = &self.s * Point::<P>::basepoint();
 
