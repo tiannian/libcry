@@ -82,6 +82,13 @@ impl<P: DisLogPoint<Scalar = S>, S: ScalarNumber> Signature<P, S> {
         (sign, pk)
     }
 
+    pub fn sign_multi_party_complete(&mut self, signatures: &[Self]) {
+        for signature in signatures {
+            assert_eq!(self.R, signature.R);
+            self.s += &signature.s;
+        }
+    }
+
     /// Verify signature
     pub fn verify<D: Digest, M: AsRef<[u8]>>(&self, pk: &BarePublicKey<P>, message: &M) -> bool {
         let s_g = &self.s * Point::<P>::basepoint();
