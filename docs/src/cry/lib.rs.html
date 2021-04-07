@@ -1,0 +1,129 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings"></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="alternate icon" type="image/png" href="../../favicon-16x16.png">
+<link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js"                  integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js"    integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "\\(", right: "\\)", display: false},
+                {left: "$", right: "$", display: false},
+                {left: "\\[", right: "\\]", display: true}
+            ]
+        });
+    });
+</script>
+
+<style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../cry/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
+                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1"> 1</span>
+<span id="2"> 2</span>
+<span id="3"> 3</span>
+<span id="4"> 4</span>
+<span id="5"> 5</span>
+<span id="6"> 6</span>
+<span id="7"> 7</span>
+<span id="8"> 8</span>
+<span id="9"> 9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+</pre><div class="example-wrap"><pre class="rust ">
+<span class="attribute">#![<span class="ident">no_std</span>]</span>
+
+<span class="doccomment">//! Cry is a advance cryptography library</span>
+<span class="doccomment">//! based on ECC and permutation.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Primitive for Cry.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Cry has two main cryptography primitive:</span>
+<span class="doccomment">//! - Elliptic Curve</span>
+<span class="doccomment">//! - Sponge Construction.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! We can use these two primitive to build all the</span>
+<span class="doccomment">//! world of cryptography.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ### Elliptic Curve</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Elliptic Curve has two type of data, point and</span>
+<span class="doccomment">//! scalar number. These define on $G_p$, $p$ is a</span>
+<span class="doccomment">//! prime number, also is number of elements.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Point $G$ will persent by uppercase letter.</span>
+<span class="doccomment">//! scalar number $a$ will persent by lowercase letter.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! All support operator:</span>
+<span class="doccomment">//! - add two scalar, $a+b$</span>
+<span class="doccomment">//! - multiply two scalar, $a*b$ or $ab$</span>
+<span class="doccomment">//! - negative scalar, $-a$</span>
+<span class="doccomment">//! - inverse scalar, $a^{-1}$</span>
+<span class="doccomment">//! - scalar one</span>
+<span class="doccomment">//! - scalar zero</span>
+<span class="doccomment">//! - add two point, $A+B$</span>
+<span class="doccomment">//! - multiply scalar and point, $a*G$ or $aG$</span>
+<span class="doccomment">//! - negative point, $-A$</span>
+<span class="doccomment">//! - inverse point, $A^{-1}$</span>
+<span class="doccomment">//! - point one</span>
+<span class="doccomment">//! - point zero</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ### Sponge Construction</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Sponge construction is a base of permutation cryptography.</span>
+<span class="doccomment">//! It can absorb data, squeeze data, or blender state.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! We can use this to build hash function and symmetric encryption.</span>
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="attribute">#[<span class="ident">macro_use</span>]</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">std</span>;
+
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">dh</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">keypair</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">primitive</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">ristretto255</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">schnorr</span>;
+</pre></div>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="cry" data-search-js="../../search-index.js"></div>
+    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script></body></html>
