@@ -1,11 +1,12 @@
 [package]
 name = "cry"
-version = "0.1.3"
+version = "0.1.4"
 authors = ["tiannian <dtiannian@aliyun.com>"]
 edition = "2018"
 description = "Advance cryptography based on ECC and permutation cryptography."
 license = "Apache-2.0"
 repository = "https://github.com/tiannian/libcry"
+documentation = "https://tiannian.github.io/libcry/cry/"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
