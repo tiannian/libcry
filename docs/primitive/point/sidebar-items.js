@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Point","Point."]],"trait":[["DisLogPoint","Point trait."]]});
