@@ -14,6 +14,8 @@ documentation = "https://tiannian.github.io/libcry/cry/"
 generic-array = {version = "0.14", default-features = false}
 digest = {version = "0.9", default-features = false}
 curve25519-dalek = {version = "3", default-features = false, features = ["u32_backend"]}
+unroll = "0.1"
+byteorder = "1.4.3"
 
 [dev-dependencies]
 rand = "0.8"

@@ -1,4 +1,6 @@
 #![no_std]
+#![feature(concat_idents)]
+#![feature(trace_macros)]
 
 //! Cry is a advance cryptography library
 //! based on ECC and permutation.
@@ -47,6 +49,7 @@
 extern crate std;
 
 pub mod dh;
+pub mod keccak;
 pub mod keypair;
 pub mod primitive;
 pub mod ristretto255;
