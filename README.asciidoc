@@ -13,7 +13,7 @@ Cry is a advance cryptography library based on ECC and permutation.
 
 | sm2 | https://www.iso.org/standard/53613.html[ISO/IEC 14888-3/AMD1] | ✗ |
 
-| KeccakF | https://keccak.team/keccak.html[Keccak] | ✗ |
+| KeccakF | https://keccak.team/keccak.html[Keccak] | ✓ |
 
 | keypair .2+| https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki[BIP32] | ✓ | Only generate private key
 
@@ -40,7 +40,4 @@ Cry is a advance cryptography library based on ECC and permutation.
 | Threshold Schnorr Signature | ✗ |
 
 | VRF | https://eprint.iacr.org/2017/099.pdf[Verifiable Random Function] | ✗ |
-
-
-
 
