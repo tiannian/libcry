@@ -64,8 +64,21 @@ const PI: [usize; 24] = [
     10, 7, 11, 17, 18, 3, 5, 16, 8, 21, 24, 4, 15, 23, 19, 13, 12, 2, 20, 14, 22, 9, 6, 1,
 ];
 
-/// Type of `keccak-f[1600]`'s state.
-pub(crate) type KeccakF1600State = [u64; 25];
+trait EndianExt {
+    fn read_u8(buf: &[u8]) -> u8;
+
+    fn write_u8(buf: &mut[u8], n: u8);
+}
+
+impl EndianExt for NativeEndian {
+    fn read_u8(buf: &[u8]) -> u8 {
+        buf[0]
+    }
+
+    fn write_u8(buf: &mut[u8], n: u8) {
+        buf[0] = n;
+    }
+}
 
 macro_rules! keccal_struct {
     (
@@ -122,11 +135,11 @@ macro_rules! keccal_struct {
 keccal_struct!(KeccakF1600, read_u64, write_u64, keccakf1600, u64);
 keccal_struct!(KeccakF800, read_u32, write_u32, keccakf800, u32);
 keccal_struct!(KeccakF400, read_u16, write_u16, keccakf400, u16);
-// keccal_struct!(KeccakF200, read_u8, write_u8, keccakf200, u8);
+keccal_struct!(KeccakF200, read_u8, write_u8, keccakf200, u8);
 
 /// keccak-f[1600]
 #[unroll_for_loops]
-pub fn keccakf1600(state: &mut KeccakF1600State) {
+pub fn keccakf1600(state: &mut [u64; 25]) {
     const RHO: [u32; 24] = [
         1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 2, 14, 27, 41, 56, 8, 25, 43, 62, 18, 39, 61, 20, 44,
     ];
@@ -159,12 +172,9 @@ pub fn keccakf1600(state: &mut KeccakF1600State) {
     keccakF!(u64, 24, state, RHO, PI, RC);
 }
 
-/// Type of `keccak-f[800]`'s state.
-pub type KeccakF800State = [u32; 25];
-
 /// keccak-f[800]
 #[unroll_for_loops]
-pub fn keccakf800(state: &mut KeccakF800State) {
+pub fn keccakf800(state: &mut [u32; 25]) {
     const RHO: [u32; 24] = [
         1, 3, 6, 10, 15, 21, 28, 4, 13, 23, 2, 14, 27, 9, 24, 8, 25, 11, 30, 18, 7, 29, 20, 12,
     ];
@@ -196,12 +206,9 @@ pub fn keccakf800(state: &mut KeccakF800State) {
     keccakF!(u32, 22, state, RHO, PI, RC);
 }
 
-/// Type of `keccak-f[400]`'s state.
-pub type KeccakF400State = [u16; 25];
-
 /// keccak-f[400]
 #[unroll_for_loops]
-pub fn keccakf400(state: &mut KeccakF400State) {
+pub fn keccakf400(state: &mut [u16; 25]) {
     const RHO: [u32; 24] = [
         1, 3, 6, 10, 15, 5, 12, 4, 13, 7, 2, 14, 11, 9, 8, 8, 9, 11, 14, 2, 7, 13, 4, 12,
     ];
@@ -219,7 +226,7 @@ pub type KeccakF200State = [u8; 25];
 
 /// keccak-f[200]
 #[unroll_for_loops]
-pub fn keccakf200(state: &mut KeccakF200State) {
+pub fn keccakf200(state: &mut [u8; 25]) {
     const RHO: [u32; 24] = [
         1, 3, 6, 2, 7, 5, 4, 4, 5, 7, 2, 6, 3, 1, 0, 0, 1, 3, 6, 2, 7, 5, 4, 4,
     ];
