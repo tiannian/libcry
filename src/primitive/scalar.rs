@@ -4,6 +4,29 @@ use super::point::{DisLogPoint, Point};
 use core::fmt::Debug;
 use core::ops::{Add, AddAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
+/// This trait mark this type is addable.
+pub trait Addable {
+    fn add(&self, _rhs: &Self) -> Self;
+
+    fn neg(&self) -> Self;
+
+    fn sub(&self, _rhs: &Self) -> Self
+    where
+        Self: Sized,
+    {
+        self.add(&_rhs.neg())
+    }
+}
+
+/// This trait mark this type is multiplyable.
+pub trait Multiplyable {
+    type Number: Multiplyable<Number = Self>;
+
+    fn mul(&self, _rhs: &Self::Number) -> Self;
+
+    fn invert(&self) -> Self;
+}
+
 /// Trait for scalar.
 pub trait ScalarNumber: FromBytesRef + Bytes + Debug + Clone {
     const SIZE: usize;
