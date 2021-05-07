@@ -67,7 +67,7 @@ const PI: [usize; 24] = [
 trait EndianExt {
     fn read_u8(buf: &[u8]) -> u8;
 
-    fn write_u8(buf: &mut[u8], n: u8);
+    fn write_u8(buf: &mut [u8], n: u8);
 }
 
 impl EndianExt for NativeEndian {
@@ -75,7 +75,7 @@ impl EndianExt for NativeEndian {
         buf[0]
     }
 
-    fn write_u8(buf: &mut[u8], n: u8) {
+    fn write_u8(buf: &mut [u8], n: u8) {
         buf[0] = n;
     }
 }
@@ -90,35 +90,47 @@ macro_rules! keccal_struct {
     ) => {
         pub struct $struct_name<const R: usize> {
             state: [$state_type; 25],
+            pos: usize,
         }
 
         impl<const R: usize> $struct_name<R> {
             pub fn new() -> Self {
-                Self { state: [0; 25] }
+                Self {
+                    state: [0; 25],
+                    pos: 0,
+                }
             }
         }
 
         impl<const R: usize> Sponge for $struct_name<R> {
+            fn position(&self) -> usize {
+                self.pos
+            }
+
             fn r(&self) -> usize {
-                R
+                R * core::mem::size_of::<$state_type>()
+            }
+
+            fn n(&self) -> usize {
+                25 * core::mem::size_of::<$state_type>()
             }
 
             fn permute(&mut self) {
                 $keccak_func_type(&mut self.state);
             }
 
-            fn absorb(&mut self, data: &[u8]) {
+            fn absorb(&mut self, data: &[u8], more: bool) {
                 let mut buf = [0; R];
-                for (o, chunk) in buf.iter_mut().zip(data.chunks_exact(8)) {
+                let type_len = core::mem::size_of::<$state_type>();
+                for (o, chunk) in buf.iter_mut().zip(data.chunks_exact(type_len)) {
                     *o = NativeEndian::$read_func_type(chunk.try_into().unwrap());
                 }
                 for (d, i) in self.state[..R].iter_mut().zip(&buf) {
                     *d ^= *i;
                 }
-                self.permute()
             }
 
-            fn squeeze(&mut self, data: &mut [u8]) {
+            fn squeeze(&mut self, data: &mut [u8], more: bool) {
                 for i in 0..R {
                     let p_buf = &mut data[i * 8..];
                     NativeEndian::$write_func_type(p_buf, self.state[i]);
@@ -220,9 +232,6 @@ pub fn keccakf400(state: &mut [u16; 25]) {
     ];
     keccakF!(u16, 20, state, RHO, PI, RC);
 }
-
-/// Type of `keccak-f[200]`'s state.
-pub type KeccakF200State = [u8; 25];
 
 /// keccak-f[200]
 #[unroll_for_loops]

@@ -54,3 +54,4 @@ pub mod keypair;
 pub mod primitive;
 pub mod ristretto255;
 pub mod schnorr;
+pub mod strobe;
