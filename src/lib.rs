@@ -1,6 +1,4 @@
 #![no_std]
-#![feature(concat_idents)]
-#![feature(trace_macros)]
 
 //! Cry is a advance cryptography library
 //! based on ECC and permutation.
