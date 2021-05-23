@@ -1,6 +1,6 @@
 //! Schnorr signature and schnorr multi-signature.
 
-use crate::keypair::{BarePublicKey, Keypair};
+use crate::key::{BarePublicKey, Keypair};
 use crate::primitive::bytes::{Bytes, FromBytesRef};
 use crate::primitive::point::{DisLogPoint, Point};
 use crate::primitive::scalar::{Scalar, ScalarNumber};

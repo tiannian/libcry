@@ -1,4 +1,4 @@
-use crate::keypair::{BarePublicKey, Keypair};
+use crate::key::{BarePublicKey, Keypair};
 use crate::primitive::bytes::{self, Bytes};
 use crate::primitive::point::DisLogPoint;
 use crate::primitive::scalar::ScalarNumber;
