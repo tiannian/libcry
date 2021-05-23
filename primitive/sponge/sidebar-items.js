@@ -1,0 +1,1 @@
+initSidebarItems({"trait":[["Sponge","Define permutation function."]]});
