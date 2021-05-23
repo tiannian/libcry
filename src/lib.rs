@@ -18,24 +18,10 @@
 //!
 //! Elliptic Curve has two type of data, point and
 //! scalar number. These define on $G_p$, $p$ is a
-//! prime number, also is number of elements.
+//! prime number, also is number of elements. 
 //!
-//! Point $G$ will persent by uppercase letter.
-//! scalar number $a$ will persent by lowercase letter.
-//!
-//! All support operator:
-//! - add two scalar, $a+b$
-//! - multiply two scalar, $a*b$ or $ab$
-//! - negative scalar, $-a$
-//! - inverse scalar, $a^{-1}$
-//! - scalar one
-//! - scalar zero
-//! - add two point, $A+B$
-//! - multiply scalar and point, $a*G$ or $aG$
-//! - negative point, $-A$
-//! - inverse point, $A^{-1}$
-//! - point one
-//! - point zero
+//! Point on EC will persent by uppercase letter, $G$.
+//! scalar number will persent by lowercase letter $a$.
 //!
 //! ### Sponge Construction
 //!
@@ -43,7 +29,25 @@
 //! It can absorb data, squeeze data, or blender state.
 //!
 //! We can use this to build hash function and symmetric encryption.
+//!
+//! ## Cryptography toolkit
+//!
+//! This crate support some algorithm based primitive abstraction.
+//! All algorithms list here:
+//! - keypair: Addition section for key deriving.
+//! - keyderive: Derive child keys for all type of keys.
+//! - strobe: A framework for symmetric cryptography and hash function.
+//! - DH: Key exchange based on asymmetric cryptography.
+//! - Schnorr: Non-interactive short zero-knowledge proof, for digital signature.
+//! - MuSig: Signature aggregated based on schnorr, this algorithm from bitcoin community.
+//! - Pederson: Pederson commitment.
+//! - SSS: Shamir's Secret Sharing based on Lagrange interpolation.
+//! - VSS: Verifiable Secret Sharing based on asymmetric.
+//! - DKG: Distributed Key Generation.
+//! - Threshold: Threshold Schnorr Signature.
+//! - VRF: Verifiable Random Function
 
+// For testing
 #[cfg(test)]
 #[macro_use]
 extern crate std;

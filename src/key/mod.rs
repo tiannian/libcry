@@ -1,3 +1,4 @@
+///! Define some type about asymmetric and symmetric key.
 mod keypair;
 pub use keypair::Keypair;
 

@@ -8,8 +8,10 @@ pub type Output<D> = GenericArray<u8, <D as Bytes>::OutputSize>;
 pub trait Bytes: Sized {
     type OutputSize: ArrayLength<u8>;
 
+    /// Generate A type from bytes.
     fn from_bytes(data: Output<Self>) -> Self;
 
+    /// Convert A type to bytes.
     fn to_bytes(&self) -> Output<Self>;
 }
 
@@ -17,7 +19,3 @@ pub trait FromBytesRef: Sized {
     fn from_bytes_ref(data: &[u8]) -> Option<Self>;
 }
 
-// pub trait FromHash {
-//     fn from_hash()
-// }
-//
