@@ -1,4 +1,4 @@
-//! An implementation of the keccak-F[1600,800,400,200].
+//! An implementation of the keccak-F\[1600,800,400,200\].
 
 use crate::primitive::sponge::Sponge;
 use byteorder::ByteOrder;
@@ -149,7 +149,7 @@ keccal_struct!(KeccakF800, read_u32, write_u32, keccakf800, u32);
 keccal_struct!(KeccakF400, read_u16, write_u16, keccakf400, u16);
 keccal_struct!(KeccakF200, read_u8, write_u8, keccakf200, u8);
 
-/// keccak-f[1600]
+/// keccak-f\[1600\]
 #[unroll_for_loops]
 pub fn keccakf1600(state: &mut [u64; 25]) {
     const RHO: [u32; 24] = [
@@ -184,7 +184,7 @@ pub fn keccakf1600(state: &mut [u64; 25]) {
     keccakF!(u64, 24, state, RHO, PI, RC);
 }
 
-/// keccak-f[800]
+/// keccak-f\[800\]
 #[unroll_for_loops]
 pub fn keccakf800(state: &mut [u32; 25]) {
     const RHO: [u32; 24] = [
@@ -218,7 +218,7 @@ pub fn keccakf800(state: &mut [u32; 25]) {
     keccakF!(u32, 22, state, RHO, PI, RC);
 }
 
-/// keccak-f[400]
+/// keccak-f\[400\]
 #[unroll_for_loops]
 pub fn keccakf400(state: &mut [u16; 25]) {
     const RHO: [u32; 24] = [
@@ -233,7 +233,7 @@ pub fn keccakf400(state: &mut [u16; 25]) {
     keccakF!(u16, 20, state, RHO, PI, RC);
 }
 
-/// keccak-f[200]
+/// keccak-f\[200\]
 #[unroll_for_loops]
 pub fn keccakf200(state: &mut [u8; 25]) {
     const RHO: [u32; 24] = [
