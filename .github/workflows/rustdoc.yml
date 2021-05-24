@@ -1,4 +1,4 @@
-name: Rust
+name: Rustdoc
 
 on:
   push:
@@ -26,5 +26,5 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./target/doc/cry/
+        publish_dir: ./target/doc/
     
