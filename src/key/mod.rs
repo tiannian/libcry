@@ -1,4 +1,7 @@
-///! Define some type about asymmetric and symmetric key.
+//! Define some type about asymmetric and symmetric key.
+//!
+//! This module define all type of `key` in `libcry`.
+
 mod keypair;
 pub use keypair::Keypair;
 

@@ -14,7 +14,7 @@
 //!
 //! ### Elliptic Curve
 //!
-//! Elliptic Curve has two type of data, point and
+//! Elliptic Curve has two types, point and
 //! scalar number. These define on $G_p$, $p$ is a
 //! prime number, also is number of elements. 
 //!
