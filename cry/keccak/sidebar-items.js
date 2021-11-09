@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["keccakf1600","keccak-f[1600]"],["keccakf200","keccak-f[200]"],["keccakf400","keccak-f[400]"],["keccakf800","keccak-f[800]"]],"struct":[["KeccakF1600",""],["KeccakF200",""],["KeccakF400",""],["KeccakF800",""]]});
