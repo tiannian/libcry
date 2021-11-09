@@ -51,11 +51,11 @@
 extern crate std;
 
 pub mod dh;
-pub mod keccak;
+// pub mod keccak;
 pub mod key;
 pub mod primitive;
 pub mod schnorr;
-pub mod strobe;
+// pub mod strobe;
 
 #[cfg(feature = "ristretto255")]
 pub mod ristretto255;
