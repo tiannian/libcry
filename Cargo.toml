@@ -1,6 +1,6 @@
 [package]
 name = "cry"
-version = "0.1.4"
+version = "0.1.5"
 authors = ["tiannian <dtiannian@aliyun.com>"]
 edition = "2018"
 description = "Advance cryptography based on ECC and permutation cryptography."
@@ -16,6 +16,10 @@ digest = {version = "0.9", default-features = false}
 curve25519-dalek = {version = "3", default-features = false, features = ["u32_backend"]}
 unroll = "0.1"
 byteorder = "1.4.3"
+
+[features]
+default = []
+ristretto255 = []
 
 [dev-dependencies]
 rand = "0.8"
