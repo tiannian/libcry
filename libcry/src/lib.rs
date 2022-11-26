@@ -16,7 +16,7 @@
 //!
 //! Elliptic Curve has two types, point and
 //! scalar number. These define on $G_p$, $p$ is a
-//! prime number, also is number of elements. 
+//! prime number, also is number of elements.
 //!
 //! Point on EC will persent by uppercase letter, $G$.
 //! scalar number will persent by lowercase letter $a$.
@@ -45,17 +45,19 @@
 //! - Threshold: Threshold Schnorr Signature.
 //! - VRF: Verifiable Random Function
 
-// For testing
-#[cfg(test)]
-#[macro_use]
-extern crate std;
+mod error;
+pub use error::*;
 
-pub mod dh;
-// pub mod keccak;
-pub mod key;
-pub mod primitive;
-pub mod schnorr;
-// pub mod strobe;
+mod types;
+pub use types::*;
 
-#[cfg(feature = "ristretto255")]
-pub mod ristretto255;
+pub mod prelude;
+
+mod keys;
+pub use keys::*;
+
+mod dh;
+pub use dh::*;
+
+// #[cfg(feature = "ristretto255")]
+// pub mod ristretto255;

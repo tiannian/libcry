@@ -3,8 +3,11 @@
 //! This module define `cry`s basic primitive types and
 //! some utils primitive types.
 
-pub mod bytes;
-pub mod digest;
-pub mod point;
-pub mod scalar;
-pub mod sponge;
+mod bytes;
+pub use bytes::*;
+
+mod curve;
+pub use curve::*;
+
+// mod point;
+// * mod sponge; */

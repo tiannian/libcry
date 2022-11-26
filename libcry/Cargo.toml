@@ -1,0 +1,18 @@
+[package]
+name = "libcry"
+version = "0.1.5"
+authors = ["tiannian <dtiannian@aliyun.com>"]
+edition = "2018"
+description = "Advance cryptography based on ECC and permutation cryptography."
+license = "Apache-2.0"
+repository = "https://github.com/tiannian/libcry"
+documentation = "https://tiannian.github.io/libcry/cry/"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+num-traits = { version = "0.2.15", default-features = false }
+
+[features]
+default = []
+

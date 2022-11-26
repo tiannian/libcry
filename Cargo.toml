@@ -1,27 +1,4 @@
-[package]
-name = "cry"
-version = "0.1.5"
-authors = ["tiannian <dtiannian@aliyun.com>"]
-edition = "2018"
-description = "Advance cryptography based on ECC and permutation cryptography."
-license = "Apache-2.0"
-repository = "https://github.com/tiannian/libcry"
-documentation = "https://tiannian.github.io/libcry/cry/"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
-generic-array = {version = "0.14", default-features = false}
-digest = {version = "0.9", default-features = false}
-curve25519-dalek = {version = "3", default-features = false, features = ["u32_backend"]}
-unroll = "0.1"
-byteorder = "1.4.3"
-
-[features]
-default = []
-ristretto255 = []
-
-[dev-dependencies]
-rand = "0.8"
-sha3 = "0.9"
-
+[workspace]
+members = [
+    "libcry",
+]
