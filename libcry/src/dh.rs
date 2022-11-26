@@ -15,6 +15,7 @@ impl<C: Curve> AsRef<[u8]> for SharedKey<C> {
 }
 
 impl<C: Curve> SharedKey<C> {
+    /// Do DH exchange
     pub fn exchange(sk: &PrivateKey<C>, pk: PublicKey<C>) -> Self {
         let mut key = pk.key;
         key.mul(&sk.key);
