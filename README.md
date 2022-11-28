@@ -1,6 +1,6 @@
-# Cry
+# libcry
 
-Cry is a advance cryptography library based on ECC and permutation.
+libcry is a advance cryptography library based on ECC and permutation.
 
 ## Algorithms and features
 

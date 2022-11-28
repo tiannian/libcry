@@ -61,6 +61,3 @@ pub use dh::*;
 
 mod schnorr;
 pub use schnorr::*;
-
-// #[cfg(feature = "ristretto255")]
-// pub mod ristretto255;
