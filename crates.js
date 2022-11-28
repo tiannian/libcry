@@ -1,1 +1,1 @@
-window.ALL_CRATES = ["cry"];
+window.ALL_CRATES = ["libcry"];
